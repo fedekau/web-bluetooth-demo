@@ -1,76 +1,34 @@
-function initializeApp() {
-  const CHART_DATA_LIMIT = 30;
-
-  const db = Array.apply(null, Array(1000)).map(function() {
-    return Math.floor(Math.random() * (77 - 55 + 1)) + 55;
-  });
-
-  const heartRateCanvas = document.getElementById('heart-rate');
-  const context = heartRateCanvas.getContext('2d');
-
-  const getRate = () => {
-    return db.shift();
+import BarChart from './bar-chart.js'
+import HeartRateSensor from './heart-rate-sensor.js';
+export default class App {
+  constructor(context) {
+    this._initDB();
+    this._initHeartRateSensor();
+    this._initChart(context);
   }
 
-  function addData(chart, label, data) {
-    chart.data.labels.push(label);
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.push(data);
-          dataset.backgroundColor.push('rgba(255, 99, 132, 0.2)');
-          dataset.borderColor.push('rgba(255,99,132,1)');
+  start() {
+    setInterval(() => {
+      const rate = this.heartRateSensor.getHeartRate();
 
-        if (dataset.data.length > CHART_DATA_LIMIT) {
-          removeFirstData(chart);
-        }
-    });
+      this.lineChart.addData(rate, rate);
 
-    chart.update();
+    }, 900);
   }
 
-  function removeFirstData(chart) {
-    chart.data.labels.shift();
-    chart.data.datasets.forEach((dataset) => {
-        dataset.data.shift();
-        dataset.backgroundColor.shift();
-        dataset.borderColor.shift();
-    });
+  _initDB() {
+    if (this.db) { return }
   }
 
-  const data = {
-    labels: [],
-    datasets: [{
-        label: 'Heart Rate',
-        data: [],
-        backgroundColor: [],
-        borderColor: [],
-        borderWidth: 1
-    }]
+  _initChart(context) {
+    if (this.lineChart) { return }
+
+    this.lineChart = new BarChart(context);
   }
 
-  const options = {
-    responsive: true,
-    maintainAspectRatio: false,
-      scales: {
-          yAxes: [{
-              ticks: {
-                  beginAtZero: true
-              }
-          }]
-      }
+  _initHeartRateSensor() {
+    if (this.heartRateSensor) { return }
+
+    this.heartRateSensor = new HeartRateSensor();
   }
-
-  const myChartBar = new Chart(context, {
-      type: 'bar',
-      data,
-      options
-  });
-
-  setInterval(() => {
-    const rate = getRate();
-
-    addData(myChartBar, rate, rate);
-
-  }, 900);
 }
-
-export default initializeApp;

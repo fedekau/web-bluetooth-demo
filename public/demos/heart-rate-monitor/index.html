@@ -21,9 +21,14 @@
   </div>
 
   <script type="module">
-    import initializeApp from './heart-rate-monitor.js'
+    import App from './heart-rate-monitor.js';
 
-    initializeApp();
-    </script>
+    const heartRateCanvas = document.getElementById('heart-rate');
+    const context = heartRateCanvas.getContext('2d');
+
+    const app = new App(context);
+
+    app.start();
+  </script>
 </body>
 </html>
