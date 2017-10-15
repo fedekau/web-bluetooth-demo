@@ -8,8 +8,12 @@ export default class HeartRateSensor {
     //TODO: Connect to the bluetooth device
   }
 
-  getHeartRate() {
-    return this._generateFakeHeartRate(this.MIN, this.MAX);
+  onHeartBeat(cb) {
+    setInterval(() => {
+      const rate = this._generateFakeHeartRate(this.MIN, this.MAX);
+
+      cb(rate);
+    }, 900);
   }
 
   _generateFakeHeartRate(min, max) {
