@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js" integrity="sha256-OHkZxrR7EXZQ8MlUC+Ww2+RedaJSP6DEsAukSt023dU=" crossorigin="anonymous"></script>
+
+  <link rel="stylesheet" href="/css/app.css">
+
+  <title>JS Day - Heart Rate Monitor Demo</title>
+</head>
+<body>
+
+  <div class="container">
+      <h1>Heart Rate Monitor Demo</h1>
+
+      <div class="chart-container" style="position: relative; height:40vh; width:100%">
+        <canvas id='heart-rate' width="150px" height="150px"></canvas>
+      </div>
+  </div>
+
+  <script type="module">
+    import initializeApp from './heart-rate-monitor.js'
+
+    initializeApp();
+    </script>
+</body>
+</html>
