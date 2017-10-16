@@ -23,14 +23,14 @@
   </div>
 
   <script type="module">
-    import HeartRateMonitor from './heart-rate-monitor.js';
+    import HeartRateMonitorApp from './heart-rate-monitor-application.js';
 
     const heartRateCanvas = document.getElementById('heart-rate');
     const context = heartRateCanvas.getContext('2d');
 
     const connectButton = document.getElementById('connect-button');
 
-    const app = new HeartRateMonitor(context);
+    const app = new HeartRateMonitorApp(context);
 
     connectButton.addEventListener('click', () => {
       app.start();
