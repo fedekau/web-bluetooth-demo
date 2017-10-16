@@ -15,20 +15,26 @@
   <div class="container">
       <h1>Heart Rate Monitor Demo</h1>
 
+      <input id="connect-button" type="button" value="Connect device">
+
       <div class="chart-container" style="position: relative; height:40vh; width:100%">
         <canvas id='heart-rate' width="150px" height="150px"></canvas>
       </div>
   </div>
 
   <script type="module">
-    import App from './heart-rate-monitor.js';
+    import HeartRateMonitor from './heart-rate-monitor.js';
 
     const heartRateCanvas = document.getElementById('heart-rate');
     const context = heartRateCanvas.getContext('2d');
 
-    const app = new App(context);
+    const connectButton = document.getElementById('connect-button');
 
-    app.start();
+    const app = new HeartRateMonitor(context);
+
+    connectButton.addEventListener('click', () => {
+      app.start();
+    });
   </script>
 </body>
 </html>
