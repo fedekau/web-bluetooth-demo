@@ -1,5 +1,6 @@
 export default class HeartRateSensor {
-  constructor() {
+  constructor(device) {
+    this.device = device;
     this.MAX = 77;
     this.MIN = 55;
   }

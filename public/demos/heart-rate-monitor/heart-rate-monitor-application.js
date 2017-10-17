@@ -4,11 +4,12 @@ import HeartRateDatabase from './heart-rate-database.js';
 export default class App {
   constructor(context) {
     this._initDB();
-    this._initHeartRateSensor();
     this._initChart(context);
   }
 
-  start() {
+  initialize(device) {
+    this._initHeartRateSensor(device);
+
     this.heartRateSensor.onHeartBeat((rate) => {
       this.lineChart.addData(rate, rate);
       this.db.add(rate);
@@ -27,9 +28,9 @@ export default class App {
     this.lineChart = new BarChart(context);
   }
 
-  _initHeartRateSensor() {
+  _initHeartRateSensor(device) {
     if (this.heartRateSensor) { return }
 
-    this.heartRateSensor = new HeartRateSensor();
+    this.heartRateSensor = new HeartRateSensor(device);
   }
 }
