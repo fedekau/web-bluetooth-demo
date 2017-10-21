@@ -8,8 +8,8 @@ export default class BarChart {
     });
   }
 
-  addData(label, data) {
-    this.chart.data.labels.push(label);
+  addData(data) {
+    this.chart.data.labels.push(data);
     this.chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
           dataset.backgroundColor.push('rgba(255, 99, 132, 0.2)');

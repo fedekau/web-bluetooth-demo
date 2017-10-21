@@ -20,21 +20,10 @@
       <div class="chart-container" style="position: relative; height:40vh; width:100%">
         <canvas id='heart-rate' width="150px" height="150px"></canvas>
       </div>
+
+      <h3 id="heart-rate-avg"></h3>
   </div>
 
-  <script type="module">
-    import HeartRateMonitorApp from './heart-rate-monitor-application.js';
-
-    const heartRateCanvas = document.getElementById('heart-rate');
-    const context = heartRateCanvas.getContext('2d');
-
-    const connectButton = document.getElementById('connect-button');
-
-    const app = new HeartRateMonitorApp(context);
-
-    connectButton.addEventListener('click', () => {
-      app.initialize();
-    });
-  </script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
