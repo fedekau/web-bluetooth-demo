@@ -32,6 +32,15 @@ export default class BarChart {
     });
   }
 
+  setData(data) {
+    this.chart.data.labels = data;
+
+    this.chart.data.datasets.forEach((dataset) => {
+      dataset.data = data;
+    });
+
+  }
+
   _data() {
     return {
       labels: [],

@@ -15,7 +15,7 @@ export default class HeartRateSensor {
         let value = event.target.value;
         let result = this._parseValue(value);
 
-        console.log(result);
+        // console.log(result);
 
         cb(result.heartRate);
       });
