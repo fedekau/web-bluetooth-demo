@@ -6,6 +6,7 @@ import ReaderDatabase from './reader-database.js';
 async function start() {
   const heartRateCanvas = document.getElementById('heart-rate');
   const connectButton = document.getElementById('connect-button');
+  const disconnectButton = document.getElementById('disconnect-button');
 
   const context = heartRateCanvas.getContext('2d');
 
@@ -18,13 +19,28 @@ async function start() {
         barChart.addData(rate);
       });
     } else {
+      connectButton.hidden = false;
+      disconnectButton.hidden = false;
+
       connectButton.addEventListener('click', async () => {
+        connectButton.value = 'Connecting...';
+        connectButton.disabled = true;
+
         await heartRateSensor.connect();
+
+        connectButton.value = 'Connected';
 
         heartRateSensor.onHeartBeat((rate) => {
           database.push(rate);
           barChart.addData(rate);
         });
+      })
+
+      disconnectButton.addEventListener('click', async () => {
+        connectButton.value = 'Connect';
+        connectButton.disabled = false;
+
+        await heartRateSensor.disconnect();
       })
     }
 }

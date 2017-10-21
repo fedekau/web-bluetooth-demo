@@ -1,12 +1,22 @@
 export default class HeartRateSensor {
   connect() {
     return navigator.bluetooth.requestDevice({ filters: [{ services: ['heart_rate'] }] })
-      .then(device => device.gatt.connect())
+      .then(device => {
+        this.device = device;
+
+        device.addEventListener('gattserverdisconnected', () => this.device.gatt.connect());
+
+        return device.gatt.connect();
+      })
       .then(server => server.getPrimaryService('heart_rate'))
       .then(service => service.getCharacteristic('heart_rate_measurement'))
       .then(characteristic => characteristic.startNotifications())
       .then(characteristic => this.characteristic = characteristic)
       .catch(error => { console.log(error); });
+  }
+
+  disconnect() {
+    return this.device.gatt.disconnect();
   }
 
   onHeartBeat(cb) {

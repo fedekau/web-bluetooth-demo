@@ -16,7 +16,10 @@
   <div class="container">
       <h1>Heart Rate Monitor Demo</h1>
 
-      <input id="connect-button" type="button" value="Connect device">
+      <div id="ble-actions">
+        <input id="connect-button" type="button" value="Connect device" hidden>
+        <input id="disconnect-button" type="button" value="Disconnect device" hidden>
+      </div>
 
       <div class="chart-container" style="position: relative; height:40vh; width:100%">
         <canvas id='heart-rate' width="150px" height="150px"></canvas>
