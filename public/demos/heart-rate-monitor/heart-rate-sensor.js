@@ -27,7 +27,7 @@ export default class HeartRateSensor {
 
         // console.log(result);
 
-        cb(result.heartRate);
+        cb(result);
       });
     }
   }

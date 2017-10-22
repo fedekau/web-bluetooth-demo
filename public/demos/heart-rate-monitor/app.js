@@ -4,8 +4,8 @@ import DatabaseBuilder from './database-builder.js';
 import ReaderDatabase from './reader-database.js';
 
 async function setupReader(database, barChart) {
-  database.onDataReceived((rate) => {
-    barChart.addData(rate);
+  database.onDataReceived((result) => {
+    barChart.addData(result.heartRate);
   });
 }
 
@@ -22,9 +22,9 @@ async function setupWriter(database,barChart, connectButton, disconnectButton, c
 
     connectButton.value = 'Connected';
 
-    heartRateSensor.onHeartBeat((rate) => {
-      database.push(rate);
-      barChart.addData(rate);
+    heartRateSensor.onHeartBeat((result) => {
+      database.push(result);
+      barChart.addData(result.heartRate);
     });
   })
 
@@ -41,6 +41,7 @@ async function start() {
   const connectButton = document.getElementById('connect-button');
   const disconnectButton = document.getElementById('disconnect-button');
   const clearButton = document.getElementById('clear-button');
+  const demoTitle = document.getElementById('demo-title');
 
   const context = heartRateCanvas.getContext('2d');
 
@@ -55,8 +56,12 @@ async function start() {
   });
 
   if (database instanceof ReaderDatabase) {
+      demoTitle.innerText += ': Doctor';
+
       setupReader(database, barChart);
     } else {
+      demoTitle.innerText += ': Patient';
+
       setupWriter(
         database,
         barChart,

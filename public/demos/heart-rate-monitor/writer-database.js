@@ -8,19 +8,21 @@ export default class WriterDatabase extends Database {
     this.realTimeHeartBeats = [];
   }
 
-  push(rate) {
-    this._pushRealtimeHeartBeatRate(rate);
+  push(result) {
+    this.beforeHook(result);
+
+    this._pushRealtimeHeartBeatRate(result);
 
     this.heartBeatCounter += 1;
 
-    if(this.heartBeatCounter > 30) {
+    if (this.heartBeatCounter > 30) {
       this._removeOldestHeartBeat();
     }
   }
 
-  _pushRealtimeHeartBeatRate(rate) {
+  _pushRealtimeHeartBeatRate(result) {
     this.realTimeHeartRateRef.push({
-      rate: rate,
+      result: result,
       time: Date.now()
     }).then((ref) => this.realTimeHeartBeats.push(ref));
   }
