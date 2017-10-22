@@ -14,14 +14,17 @@ export default class DatabaseBuilder {
   static async getDatabase() {
     if (this.database) { return this.database }
 
-    let loginPromise;
-
     if (!firebase.auth().currentUser) {
       await firebase.auth().signInAnonymously();
     }
 
     try {
-      await firebase.database().ref('realtime-heart-rate/').set({})
+      let ref = await firebase.database().ref('realtime-heart-rate/').push({
+        rate: 70,
+        time: null
+      })
+
+      await ref.remove();
 
       return this.database = new WriterDatabase();
     } catch (e) {
