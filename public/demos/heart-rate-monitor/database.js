@@ -3,9 +3,9 @@ export default class Database {
     this.realTimeHeartRateRef = firebase.database().ref('realtime-heart-rate/');
     this.averageBPP = 70;
     this.numberOfBeats = 0;
-    this.startTime = Date.now();
+    this.startTime = null;
     this.endTime = Date.now();
-    this.rrIntervals = [];
+    this.rrIntervalsAverage = 700;
   }
 
   clear() {
@@ -13,6 +13,18 @@ export default class Database {
   }
 
   beforeHook(result) {
+    if (!this.startTime) {
+      this.startTime = Date.now();
+    }
 
+    this.endTime = Date.now();
+    this.numberOfBeats += 1;
+
+    if (result) {
+      this.averageBPP = Math.round((this.averageBPP + result.heartRate) / 2.0);
+      this.rrIntervalsAverage = Math.round((this.rrIntervalsAverage + result.rrIntervals[0]) / 2.0);
+    }
+
+    console.log(this.startTime, this.endTime, this.averageBPP, this.numberOfBeats, this.rrIntervalsAverage);
   }
 }
