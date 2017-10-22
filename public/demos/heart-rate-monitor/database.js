@@ -34,16 +34,16 @@ export default class Database {
       this.rrIntervalsMax = Math.max(this.rrIntervalsMax, result.rrIntervals[0]);
     }
 
-    console.log(
-      this.startTime,
-      this.endTime,
-      this.averageBPM,
-      this.minBPM,
-      this.maxBPM,
-      this.numberOfBeats,
-      this.rrIntervalsAverage,
-      this.rrIntervalsMin,
-      this.rrIntervalsMax
-    );
+    console.table({
+      startTime: this.startTime,
+      endTime: this.endTime,
+      averageBPM: this.averageBPM,
+      minBPM: this.minBPM,
+      maxBPM: this.maxBPM,
+      numberOfBeats: this.numberOfBeats,
+      rrIntervalsAverage: this.rrIntervalsAverage,
+      rrIntervalsMin: this.rrIntervalsMin,
+      rrIntervalsMax: this.rrIntervalsMax
+    });
   }
 }
