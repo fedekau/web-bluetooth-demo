@@ -1,15 +1,17 @@
 import BarChart from './bar-chart.js';
+import LineChart from './line-chart.js';
 import HeartRateSensor from './heart-rate-sensor.js';
 import DatabaseBuilder from './database-builder.js';
 import ReaderDatabase from './reader-database.js';
 
-async function setupReader(database, barChart) {
+async function setupReader(database, barChart, lineChart) {
   database.onDataReceived((result) => {
     barChart.addData(result.heartRate);
+    lineChart.addData(result.rrIntervals[0]);
   });
 }
 
-async function setupWriter(database,barChart, connectButton, disconnectButton, clearButton, heartRateSensor) {
+async function setupWriter(database, barChart, lineChart, connectButton, disconnectButton, clearButton, heartRateSensor) {
   connectButton.hidden = false;
   disconnectButton.hidden = false;
   clearButton.hidden = false;
@@ -25,6 +27,7 @@ async function setupWriter(database,barChart, connectButton, disconnectButton, c
     heartRateSensor.onHeartBeat((result) => {
       database.push(result);
       barChart.addData(result.heartRate);
+      lineChart.addData(result.rrIntervals[0]);
     });
   })
 
@@ -38,33 +41,38 @@ async function setupWriter(database,barChart, connectButton, disconnectButton, c
 
 async function start() {
   const heartRateCanvas = document.getElementById('heart-rate');
+  const heartRateIntervalsCanvas = document.getElementById('heart-rate-intervals');
   const connectButton = document.getElementById('connect-button');
   const disconnectButton = document.getElementById('disconnect-button');
   const clearButton = document.getElementById('clear-button');
   const demoTitle = document.getElementById('demo-title');
 
-  const context = heartRateCanvas.getContext('2d');
+  const heartRateContext = heartRateCanvas.getContext('2d');
+  const heartRateIntervalsContext = heartRateIntervalsCanvas.getContext('2d');
 
   const heartRateSensor = new HeartRateSensor();
-  const barChart = new BarChart(context);
+  const barChart = new BarChart(heartRateContext);
+  const lineChart = new LineChart(heartRateIntervalsCanvas);
 
   const database = await DatabaseBuilder.getDatabase();
 
   clearButton.addEventListener('click', () => {
     database.clear();
     barChart.clear();
+    lineChart.clear();
   });
 
   if (database instanceof ReaderDatabase) {
       demoTitle.innerText += ': Doctor';
 
-      setupReader(database, barChart);
+      setupReader(database, barChart, lineChart);
     } else {
       demoTitle.innerText += ': Patient';
 
       setupWriter(
         database,
         barChart,
+        lineChart,
         connectButton,
         disconnectButton,
         clearButton,

@@ -2,7 +2,7 @@ export default class BarChart {
   constructor(context) {
     this.CHART_DATA_LIMIT = 30;
     this.chart = new Chart(context, {
-      type: 'bar',
+      type: 'line',
       data: this._data(),
       options: this._options()
     });
@@ -12,7 +12,7 @@ export default class BarChart {
     this.chart.data.labels.push(data);
     this.chart.data.datasets.forEach((dataset) => {
         dataset.data.push(data);
-          dataset.backgroundColor.push('rgba(255, 99, 132, 0.2)');
+          dataset.backgroundColor.push('rgba(255, 99, 132, 0.0)');
           dataset.borderColor.push('rgba(255,99,132,1)');
 
         if (dataset.data.length > this.CHART_DATA_LIMIT) {
@@ -53,7 +53,7 @@ export default class BarChart {
     return {
       labels: [],
       datasets: [{
-          label: 'Heart Rate (BPM)',
+          label: 'Heart Rate Intervals (milliseconds)',
           data: [],
           backgroundColor: [],
           borderColor: [],
