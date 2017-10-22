@@ -7,7 +7,7 @@ import ReaderDatabase from './reader-database.js';
 async function setupReader(database, barChart, lineChart) {
   database.onDataReceived((result) => {
     barChart.addData(result.heartRate);
-    lineChart.addData(result.rrIntervals[0]);
+    lineChart.addData(result.rrIntervals[0], database.rrIntervalsMin, database.rrIntervalsMax);
   });
 }
 
@@ -27,7 +27,7 @@ async function setupWriter(database, barChart, lineChart, connectButton, disconn
     heartRateSensor.onHeartBeat((result) => {
       database.push(result);
       barChart.addData(result.heartRate);
-      lineChart.addData(result.rrIntervals[0]);
+      lineChart.addData(result.rrIntervals[0], database.rrIntervalsMin, database.rrIntervalsMax);
     });
   })
 

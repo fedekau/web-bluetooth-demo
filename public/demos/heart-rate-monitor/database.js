@@ -1,9 +1,9 @@
 export default class Database {
   constructor() {
     this.realTimeHeartRateRef = firebase.database().ref('realtime-heart-rate/');
-    this.averageBPP = 70;
-    this.minBPP = 206;
-    this.maxBPP = 0;
+    this.averageBPM = 70;
+    this.minBPM = 206;
+    this.maxBPM = 0;
     this.numberOfBeats = 0;
     this.startTime = null;
     this.endTime = Date.now();
@@ -25,9 +25,9 @@ export default class Database {
     this.numberOfBeats += 1;
 
     if (result) {
-      this.averageBPP = Math.round((this.averageBPP + result.heartRate) / 2.0);
-      this.minBPP = Math.min(this.minBPP, result.heartRate);
-      this.maxBPP = Math.max(this.maxBPP, result.heartRate);
+      this.averageBPM = Math.round((this.averageBPM + result.heartRate) / 2.0);
+      this.minBPM = Math.min(this.minBPM, result.heartRate);
+      this.maxBPM = Math.max(this.maxBPM, result.heartRate);
 
       this.rrIntervalsAverage = Math.round((this.rrIntervalsAverage + result.rrIntervals[0]) / 2.0);
       this.rrIntervalsMin = Math.min(this.rrIntervalsMin, result.rrIntervals[0]);
@@ -37,9 +37,9 @@ export default class Database {
     console.log(
       this.startTime,
       this.endTime,
-      this.averageBPP,
-      this.minBPP,
-      this.maxBPP,
+      this.averageBPM,
+      this.minBPM,
+      this.maxBPM,
       this.numberOfBeats,
       this.rrIntervalsAverage,
       this.rrIntervalsMin,
