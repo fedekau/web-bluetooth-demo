@@ -18,17 +18,12 @@ export default class DatabaseBuilder {
       await firebase.auth().signInAnonymously();
     }
 
-    try {
-      let ref = await firebase.database().ref('realtime-heart-rate/').push({
-        rate: 70,
-        time: null
-      })
+    const userRole = localStorage.getItem('userRole');
 
-      await ref.remove();
-
+    if (userRole === 'patient') {
       return this.database = new WriterDatabase();
-    } catch (e) {
-      return this.database = new ReaderDatabase()
     }
+
+    return this.database = new ReaderDatabase();
   }
 }
